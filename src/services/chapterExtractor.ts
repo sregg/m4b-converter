@@ -28,8 +28,23 @@ export const extractChapters = async (ffmpeg: FFmpeg, file: File): Promise<Chapt
     return chapters;
   } catch (error) {
     console.error('Failed to extract chapters:', error);
+    const errorMessage = error instanceof Error ? error.message : '';
+
+    // Check if this is likely a DRM-protected file
+    const isDrmError =
+      errorMessage.includes('moov') ||
+      errorMessage.includes('Invalid') ||
+      errorMessage.includes('decrypt') ||
+      file.name.toLowerCase().endsWith('.aax');
+
+    if (isDrmError && file.name.toLowerCase().endsWith('.aax')) {
+      throw new Error(
+        'This AAX file appears to be DRM-protected and cannot be converted. FFmpeg cannot read encrypted files. Please use a DRM-free audiobook file.'
+      );
+    }
+
     throw new Error(
-      'Failed to extract chapters from audiobook file. The file may be corrupted or unsupported.'
+      'Failed to extract chapters from audiobook file. The file may be corrupted, DRM-protected, or unsupported.'
     );
   }
 };
