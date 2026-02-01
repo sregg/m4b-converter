@@ -77,9 +77,10 @@ function App() {
     <ErrorBoundary>
       <div className="app">
         <header className="app-header">
-          <h1>M4B to MP3 Converter</h1>
+          <h1>M4B/AAX to MP3 Converter</h1>
           <p>
-            Convert M4B audiobook files to MP3 chapters - All processing happens in your browser
+            Convert M4B and AAX audiobook files to MP3 chapters - All processing happens in your
+            browser
           </p>
         </header>
 

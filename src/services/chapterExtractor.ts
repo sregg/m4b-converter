@@ -4,10 +4,12 @@ import { Chapter } from '../types';
 
 export const extractChapters = async (ffmpeg: FFmpeg, file: File): Promise<Chapter[]> => {
   try {
-    const inputFileName = 'input.m4b';
+    // Use original extension to maintain compatibility
+    const extension = file.name.toLowerCase().endsWith('.aax') ? '.aax' : '.m4b';
+    const inputFileName = `input${extension}`;
     const metadataFileName = 'metadata.txt';
 
-    // Write M4B file to FFmpeg virtual filesystem
+    // Write audiobook file to FFmpeg virtual filesystem
     await ffmpeg.writeFile(inputFileName, await fetchFile(file));
 
     // Extract metadata using ffmpeg
@@ -27,7 +29,7 @@ export const extractChapters = async (ffmpeg: FFmpeg, file: File): Promise<Chapt
   } catch (error) {
     console.error('Failed to extract chapters:', error);
     throw new Error(
-      'Failed to extract chapters from M4B file. The file may be corrupted or unsupported.'
+      'Failed to extract chapters from audiobook file. The file may be corrupted or unsupported.'
     );
   }
 };
@@ -100,7 +102,7 @@ const parseChapterMetadata = (metadata: string): Chapter[] => {
   }
 
   if (chapters.length === 0) {
-    throw new Error('No chapters found in the M4B file');
+    throw new Error('No chapters found in the audiobook file');
   }
 
   return chapters;

@@ -94,13 +94,13 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFileSelect, disabled }
             />
           </svg>
           <p className="upload-text">
-            {isDragging ? 'Drop M4B file here' : 'Drag and drop M4B file here'}
+            {isDragging ? 'Drop M4B/AAX file here' : 'Drag and drop M4B/AAX file here'}
           </p>
           <p className="upload-subtext">or</p>
           <label className="file-input-label">
             <input
               type="file"
-              accept=".m4b"
+              accept=".m4b,.aax"
               onChange={handleFileInput}
               disabled={disabled}
               className="file-input"

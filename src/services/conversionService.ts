@@ -2,7 +2,11 @@ import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { Chapter, ConversionResult, ProgressUpdate } from '../types';
 import { formatTimestamp } from '../utils/fileHelpers';
 
-export const convertChapterToMp3 = async (ffmpeg: FFmpeg, chapter: Chapter): Promise<Blob> => {
+export const convertChapterToMp3 = async (
+  ffmpeg: FFmpeg,
+  chapter: Chapter,
+  inputFileName: string
+): Promise<Blob> => {
   const outputFileName = `chapter_${chapter.number}.mp3`;
 
   try {
@@ -13,7 +17,7 @@ export const convertChapterToMp3 = async (ffmpeg: FFmpeg, chapter: Chapter): Pro
     // Convert chapter to MP3
     await ffmpeg.exec([
       '-i',
-      'input.m4b',
+      inputFileName,
       '-ss',
       startTime,
       '-t',
@@ -49,6 +53,7 @@ export const convertChapterToMp3 = async (ffmpeg: FFmpeg, chapter: Chapter): Pro
 export const convertAllChapters = async (
   ffmpeg: FFmpeg,
   chapters: Chapter[],
+  inputFileName: string,
   onProgress?: (progress: ProgressUpdate) => void
 ): Promise<ConversionResult[]> => {
   const results: ConversionResult[] = [];
@@ -66,7 +71,7 @@ export const convertAllChapters = async (
     }
 
     try {
-      const blob = await convertChapterToMp3(ffmpeg, chapter);
+      const blob = await convertChapterToMp3(ffmpeg, chapter, inputFileName);
 
       results.push({
         chapter,

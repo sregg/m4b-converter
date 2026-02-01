@@ -1,6 +1,6 @@
-# M4B to MP3 Converter
+# M4B/AAX to MP3 Converter
 
-A modern web application that converts M4B audiobook files to separate MP3 files per chapter, with all processing happening client-side in your browser using ffmpeg.wasm.
+A modern web application that converts M4B and AAX audiobook files to separate MP3 files per chapter, with all processing happening client-side in your browser using ffmpeg.wasm.
 
 ## Features
 
@@ -17,7 +17,7 @@ A modern web application that converts M4B audiobook files to separate MP3 files
 
 ## How It Works
 
-1. **Upload** an M4B audiobook file
+1. **Upload** an M4B or AAX audiobook file
 2. **Review** extracted chapters with durations
 3. **Edit** chapter names if needed (click the pencil icon)
 4. **Convert** to MP3 files (128kbps)

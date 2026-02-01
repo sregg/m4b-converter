@@ -44,7 +44,9 @@ export const useM4bProcessor = () => {
 
         // Write input file to FFmpeg virtual filesystem
         setState((prev) => ({ ...prev, status: 'extracting' }));
-        await currentFFmpeg.writeFile('input.m4b', await fetchFile(file));
+        const extension = file.name.toLowerCase().endsWith('.aax') ? '.aax' : '.m4b';
+        const inputFileName = `input${extension}`;
+        await currentFFmpeg.writeFile(inputFileName, await fetchFile(file));
 
         // Extract chapters
         const chapters = await extractChapters(currentFFmpeg, file);
@@ -79,12 +81,17 @@ export const useM4bProcessor = () => {
         throw new Error('FFmpeg is not loaded');
       }
 
-      const { chapters } = state;
+      const { chapters, file } = state;
+
+      // Get input filename
+      const extension = file?.name.toLowerCase().endsWith('.aax') ? '.aax' : '.m4b';
+      const inputFileName = `input${extension}`;
 
       // Convert chapters with edited names
       const results = await convertAllChapters(
         currentFFmpeg,
         chapters,
+        inputFileName,
         (progress: ProgressUpdate) => {
           setState((prev) => ({
             ...prev,
@@ -97,7 +104,7 @@ export const useM4bProcessor = () => {
       );
 
       // Clean up input file
-      await currentFFmpeg.deleteFile('input.m4b');
+      await currentFFmpeg.deleteFile(inputFileName);
 
       setState((prev) => ({
         ...prev,

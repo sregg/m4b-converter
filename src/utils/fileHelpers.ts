@@ -10,10 +10,11 @@ export const formatFileSize = (bytes: number): string => {
 
 export const isValidM4bFile = (file: File): { valid: boolean; error?: string } => {
   // Check file extension
-  if (!file.name.toLowerCase().endsWith('.m4b')) {
+  const fileName = file.name.toLowerCase();
+  if (!fileName.endsWith('.m4b') && !fileName.endsWith('.aax')) {
     return {
       valid: false,
-      error: 'Please select a valid M4B file',
+      error: 'Please select a valid M4B or AAX file',
     };
   }
 
