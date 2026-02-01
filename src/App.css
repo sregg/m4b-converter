@@ -51,6 +51,16 @@ body {
   font-size: 0.95rem;
 }
 
+.drm-notice {
+  margin-top: 0.75rem;
+  padding: 0.5rem 1rem;
+  background-color: #fef3c7;
+  color: #92400e;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  display: inline-block;
+}
+
 .app-main {
   flex: 1;
   max-width: 900px;

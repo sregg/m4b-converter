@@ -115,10 +115,11 @@ ffmpeg.wasm requires SharedArrayBuffer, which needs COOP and COEP headers. The V
 
 ## Known Limitations
 
-1. **File Size** - Browser memory limits files >1GB
-2. **Speed** - WASM is slower than native FFmpeg
-3. **Mobile** - Limited by device memory/CPU
-4. **Browser Support** - Requires SharedArrayBuffer
+1. **DRM Protection** - Cannot convert DRM-protected files (e.g., Audible AAX files with DRM). Only DRM-free audiobook files are supported.
+2. **File Size** - Browser memory limits files >1GB
+3. **Speed** - WASM is slower than native FFmpeg
+4. **Mobile** - Limited by device memory/CPU
+5. **Browser Support** - Requires SharedArrayBuffer
 
 ## Project Structure
 

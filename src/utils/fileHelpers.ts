@@ -18,6 +18,15 @@ export const isValidM4bFile = (file: File): { valid: boolean; error?: string } =
     };
   }
 
+  // Warning for AAX files (may be DRM-protected)
+  if (fileName.endsWith('.aax')) {
+    return {
+      valid: true,
+      error:
+        'Note: DRM-protected AAX files from Audible cannot be converted. Only DRM-free AAX files will work.',
+    };
+  }
+
   // Check file size (2GB browser limit, warn at 500MB)
   const maxSize = 2 * 1024 * 1024 * 1024; // 2GB
   const warnSize = 500 * 1024 * 1024; // 500MB

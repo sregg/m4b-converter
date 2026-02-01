@@ -46,7 +46,11 @@ export const convertChapterToMp3 = async (
     return blob;
   } catch (error) {
     console.error(`Failed to convert chapter ${chapter.number}:`, error);
-    throw new Error(`Failed to convert chapter ${chapter.number}: ${chapter.title}`);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.error('FFmpeg error details:', errorMessage);
+    throw new Error(
+      `Failed to convert chapter ${chapter.number}: ${chapter.title}. ${errorMessage.includes('Invalid') || errorMessage.includes('moov') ? 'This file may be DRM-protected.' : ''}`
+    );
   }
 };
 

@@ -82,6 +82,10 @@ function App() {
             Convert M4B and AAX audiobook files to MP3 chapters - All processing happens in your
             browser
           </p>
+          <p className="drm-notice">
+            ⚠️ DRM-protected files (e.g., from Audible) cannot be converted. Only DRM-free files are
+            supported.
+          </p>
         </header>
 
         {!sharedArrayBufferAvailable && (
