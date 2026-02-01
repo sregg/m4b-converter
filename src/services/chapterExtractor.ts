@@ -2,10 +2,7 @@ import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile } from '@ffmpeg/util';
 import { Chapter } from '../types';
 
-export const extractChapters = async (
-  ffmpeg: FFmpeg,
-  file: File
-): Promise<Chapter[]> => {
+export const extractChapters = async (ffmpeg: FFmpeg, file: File): Promise<Chapter[]> => {
   try {
     const inputFileName = 'input.m4b';
     const metadataFileName = 'metadata.txt';
@@ -14,11 +11,7 @@ export const extractChapters = async (
     await ffmpeg.writeFile(inputFileName, await fetchFile(file));
 
     // Extract metadata using ffmpeg
-    await ffmpeg.exec([
-      '-i', inputFileName,
-      '-f', 'ffmetadata',
-      metadataFileName
-    ]);
+    await ffmpeg.exec(['-i', inputFileName, '-f', 'ffmetadata', metadataFileName]);
 
     // Read the metadata file
     const data = await ffmpeg.readFile(metadataFileName);
@@ -33,7 +26,9 @@ export const extractChapters = async (
     return chapters;
   } catch (error) {
     console.error('Failed to extract chapters:', error);
-    throw new Error('Failed to extract chapters from M4B file. The file may be corrupted or unsupported.');
+    throw new Error(
+      'Failed to extract chapters from M4B file. The file may be corrupted or unsupported.'
+    );
   }
 };
 
@@ -62,14 +57,18 @@ const parseChapterMetadata = (metadata: string): Chapter[] => {
 
     // Start of a chapter
     if (line === '[CHAPTER]') {
-      if (currentChapter && currentChapter.start !== undefined && currentChapter.end !== undefined) {
+      if (
+        currentChapter &&
+        currentChapter.start !== undefined &&
+        currentChapter.end !== undefined
+      ) {
         // Save previous chapter
         chapters.push({
           number: chapterNumber++,
           title: currentChapter.title || `Chapter ${chapterNumber - 1}`,
           start: currentChapter.start,
           end: currentChapter.end,
-          duration: currentChapter.end - currentChapter.start
+          duration: currentChapter.end - currentChapter.start,
         });
       }
       currentChapter = {};
@@ -96,7 +95,7 @@ const parseChapterMetadata = (metadata: string): Chapter[] => {
       title: currentChapter.title || `Chapter ${chapterNumber}`,
       start: currentChapter.start,
       end: currentChapter.end,
-      duration: currentChapter.end - currentChapter.start
+      duration: currentChapter.end - currentChapter.start,
     });
   }
 

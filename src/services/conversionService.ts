@@ -2,11 +2,7 @@ import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { Chapter, ConversionResult, ProgressUpdate } from '../types';
 import { formatTimestamp } from '../utils/fileHelpers';
 
-export const convertChapterToMp3 = async (
-  ffmpeg: FFmpeg,
-  chapter: Chapter,
-  _onProgress?: (progress: ProgressUpdate) => void
-): Promise<Blob> => {
+export const convertChapterToMp3 = async (ffmpeg: FFmpeg, chapter: Chapter): Promise<Blob> => {
   const outputFileName = `chapter_${chapter.number}.mp3`;
 
   try {
@@ -16,15 +12,22 @@ export const convertChapterToMp3 = async (
 
     // Convert chapter to MP3
     await ffmpeg.exec([
-      '-i', 'input.m4b',
-      '-ss', startTime,
-      '-t', duration,
+      '-i',
+      'input.m4b',
+      '-ss',
+      startTime,
+      '-t',
+      duration,
       '-vn', // No video
-      '-acodec', 'libmp3lame',
-      '-b:a', '128k',
-      '-metadata', `title=${chapter.editedTitle || chapter.title}`,
-      '-metadata', `track=${chapter.number}`,
-      outputFileName
+      '-acodec',
+      'libmp3lame',
+      '-b:a',
+      '128k',
+      '-metadata',
+      `title=${chapter.editedTitle || chapter.title}`,
+      '-metadata',
+      `track=${chapter.number}`,
+      outputFileName,
     ]);
 
     // Read the output file
@@ -58,7 +61,7 @@ export const convertAllChapters = async (
       onProgress({
         current: i + 1,
         total: chapters.length,
-        message: `Converting chapter ${i + 1} of ${chapters.length}: ${chapter.title}`
+        message: `Converting chapter ${i + 1} of ${chapters.length}: ${chapter.title}`,
       });
     }
 
@@ -68,7 +71,7 @@ export const convertAllChapters = async (
       results.push({
         chapter,
         blob,
-        size: blob.size
+        size: blob.size,
       });
     } catch (error) {
       console.error(`Error converting chapter ${chapter.number}:`, error);

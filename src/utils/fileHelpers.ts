@@ -13,7 +13,7 @@ export const isValidM4bFile = (file: File): { valid: boolean; error?: string } =
   if (!file.name.toLowerCase().endsWith('.m4b')) {
     return {
       valid: false,
-      error: 'Please select a valid M4B file'
+      error: 'Please select a valid M4B file',
     };
   }
 
@@ -24,14 +24,14 @@ export const isValidM4bFile = (file: File): { valid: boolean; error?: string } =
   if (file.size > maxSize) {
     return {
       valid: false,
-      error: 'File is too large (max 2GB)'
+      error: 'File is too large (max 2GB)',
     };
   }
 
   if (file.size > warnSize) {
     return {
       valid: true,
-      error: 'Warning: Large files may cause memory issues'
+      error: 'Warning: Large files may cause memory issues',
     };
   }
 

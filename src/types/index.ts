@@ -1,9 +1,9 @@
 export interface Chapter {
   number: number;
   title: string;
-  start: number;      // milliseconds
-  end: number;        // milliseconds
-  duration: number;   // milliseconds
+  start: number; // milliseconds
+  end: number; // milliseconds
+  duration: number; // milliseconds
   editedTitle?: string; // User-edited title
 }
 

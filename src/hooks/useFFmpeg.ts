@@ -29,7 +29,7 @@ export const useFFmpeg = (): UseFFmpegReturn => {
         console.error('SharedArrayBuffer is not available');
         console.error('Current headers:', {
           coop: document.head.querySelector('meta[http-equiv="Cross-Origin-Opener-Policy"]'),
-          coep: document.head.querySelector('meta[http-equiv="Cross-Origin-Embedder-Policy"]')
+          coep: document.head.querySelector('meta[http-equiv="Cross-Origin-Embedder-Policy"]'),
         });
         throw new Error(
           'SharedArrayBuffer is not available. Please ensure your server is configured with COOP and COEP headers. Try restarting the dev server.'
@@ -60,7 +60,7 @@ export const useFFmpeg = (): UseFFmpegReturn => {
           name: 'jsdelivr.net',
           coreURL: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/esm/ffmpeg-core.js',
           wasmURL: 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/esm/ffmpeg-core.wasm',
-        }
+        },
       ];
 
       let loaded = false;
@@ -115,6 +115,6 @@ export const useFFmpeg = (): UseFFmpegReturn => {
     isReady,
     error,
     load,
-    cleanup
+    cleanup,
   };
 };

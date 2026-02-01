@@ -33,12 +33,14 @@ export const DownloadPanel: React.FC<DownloadPanelProps> = ({ results, originalF
     <div className="download-panel">
       <div className="download-header">
         <h2>Download Converted Files</h2>
-        <button
-          className="download-all-button"
-          onClick={handleDownloadAll}
-        >
+        <button className="download-all-button" onClick={handleDownloadAll}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+            />
           </svg>
           Download All as ZIP ({formatFileSize(totalSize)})
         </button>
@@ -55,12 +57,14 @@ export const DownloadPanel: React.FC<DownloadPanelProps> = ({ results, originalF
                 </span>
                 <span className="download-size">{formatFileSize(result.size)}</span>
               </div>
-              <button
-                className="download-button"
-                onClick={() => handleDownloadIndividual(result)}
-              >
+              <button className="download-button" onClick={() => handleDownloadIndividual(result)}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                  />
                 </svg>
               </button>
             </div>

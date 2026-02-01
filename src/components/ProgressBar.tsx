@@ -13,10 +13,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ current, total, messag
     <div className="progress-bar-container">
       {message && <p className="progress-message">{message}</p>}
       <div className="progress-bar">
-        <div
-          className="progress-fill"
-          style={{ width: `${percentage}%` }}
-        />
+        <div className="progress-fill" style={{ width: `${percentage}%` }} />
       </div>
       <p className="progress-text">
         {current} of {total} ({percentage}%)

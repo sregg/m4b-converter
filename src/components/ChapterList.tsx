@@ -15,7 +15,7 @@ export const ChapterList: React.FC<ChapterListProps> = ({
   currentChapter,
   completedChapters = [],
   onEditChapter,
-  isProcessing = false
+  isProcessing = false,
 }) => {
   const [editingChapter, setEditingChapter] = useState<number | null>(null);
   const [editValue, setEditValue] = useState('');
@@ -53,9 +53,7 @@ export const ChapterList: React.FC<ChapterListProps> = ({
   return (
     <div className="chapter-list">
       <h2>Chapters ({chapters.length})</h2>
-      {!isProcessing && (
-        <p className="chapter-hint">Click on a chapter name to edit it</p>
-      )}
+      {!isProcessing && <p className="chapter-hint">Click on a chapter name to edit it</p>}
       <div className="chapters">
         {chapters.map((chapter) => {
           const isCompleted = completedChapters.includes(chapter.number);
@@ -70,8 +68,20 @@ export const ChapterList: React.FC<ChapterListProps> = ({
             >
               <div className="chapter-status">
                 {isCompleted ? (
-                  <svg className="status-icon completed" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  <svg
+                    className="status-icon completed"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
                 ) : isCurrent ? (
                   <div className="status-icon spinner"></div>
@@ -110,8 +120,19 @@ export const ChapterList: React.FC<ChapterListProps> = ({
                           onClick={() => handleStartEdit(chapter)}
                           title="Edit chapter name"
                         >
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                            />
                           </svg>
                         </button>
                       )}

@@ -14,61 +14,63 @@ export const useM4bProcessor = () => {
     chapters: [],
     results: [],
     progress: { current: 0, total: 0 },
-    error: null
+    error: null,
   });
 
-  const processFile = useCallback(async (file: File) => {
-    setState(prev => ({
-      ...prev,
-      status: 'uploading',
-      file,
-      error: null
-    }));
-
-    try {
-      // Load FFmpeg if not already loaded
-      if (!ffmpegRef.current) {
-        console.log('FFmpeg not loaded, loading now...');
-        await loadFFmpeg();
-      }
-
-      // Get the current ffmpeg instance from the ref
-      const currentFFmpeg = ffmpegRef.current;
-
-      if (!currentFFmpeg) {
-        throw new Error('FFmpeg failed to load. Please check the console for details.');
-      }
-
-      console.log('FFmpeg is ready, proceeding with file processing');
-
-      // Write input file to FFmpeg virtual filesystem
-      setState(prev => ({ ...prev, status: 'extracting' }));
-      await currentFFmpeg.writeFile('input.m4b', await fetchFile(file));
-
-      // Extract chapters
-      const chapters = await extractChapters(currentFFmpeg, file);
-
-      // Stop here and wait for user to click Convert
-      setState(prev => ({
+  const processFile = useCallback(
+    async (file: File) => {
+      setState((prev) => ({
         ...prev,
-        chapters,
-        status: 'idle', // Change to idle so user can edit and click Convert
-        progress: { current: 0, total: chapters.length }
+        status: 'uploading',
+        file,
+        error: null,
       }));
 
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error : new Error('Unknown error occurred');
-      setState(prev => ({
-        ...prev,
-        status: 'error',
-        error: errorMessage
-      }));
-      console.error('Processing error:', error);
-    }
-  }, [ffmpegRef, loadFFmpeg]);
+      try {
+        // Load FFmpeg if not already loaded
+        if (!ffmpegRef.current) {
+          console.log('FFmpeg not loaded, loading now...');
+          await loadFFmpeg();
+        }
+
+        // Get the current ffmpeg instance from the ref
+        const currentFFmpeg = ffmpegRef.current;
+
+        if (!currentFFmpeg) {
+          throw new Error('FFmpeg failed to load. Please check the console for details.');
+        }
+
+        console.log('FFmpeg is ready, proceeding with file processing');
+
+        // Write input file to FFmpeg virtual filesystem
+        setState((prev) => ({ ...prev, status: 'extracting' }));
+        await currentFFmpeg.writeFile('input.m4b', await fetchFile(file));
+
+        // Extract chapters
+        const chapters = await extractChapters(currentFFmpeg, file);
+
+        // Stop here and wait for user to click Convert
+        setState((prev) => ({
+          ...prev,
+          chapters,
+          status: 'idle', // Change to idle so user can edit and click Convert
+          progress: { current: 0, total: chapters.length },
+        }));
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error : new Error('Unknown error occurred');
+        setState((prev) => ({
+          ...prev,
+          status: 'error',
+          error: errorMessage,
+        }));
+        console.error('Processing error:', error);
+      }
+    },
+    [ffmpegRef, loadFFmpeg]
+  );
 
   const convertChapters = useCallback(async () => {
-    setState(prev => ({ ...prev, status: 'converting' }));
+    setState((prev) => ({ ...prev, status: 'converting' }));
 
     try {
       const currentFFmpeg = ffmpegRef.current;
@@ -84,12 +86,12 @@ export const useM4bProcessor = () => {
         currentFFmpeg,
         chapters,
         (progress: ProgressUpdate) => {
-          setState(prev => ({
+          setState((prev) => ({
             ...prev,
             progress: {
               current: progress.current,
-              total: progress.total
-            }
+              total: progress.total,
+            },
           }));
         }
       );
@@ -97,18 +99,17 @@ export const useM4bProcessor = () => {
       // Clean up input file
       await currentFFmpeg.deleteFile('input.m4b');
 
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         status: 'completed',
-        results
+        results,
       }));
-
     } catch (error) {
       const errorMessage = error instanceof Error ? error : new Error('Unknown error occurred');
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         status: 'error',
-        error: errorMessage
+        error: errorMessage,
       }));
       console.error('Conversion error:', error);
     }
@@ -121,18 +122,16 @@ export const useM4bProcessor = () => {
       chapters: [],
       results: [],
       progress: { current: 0, total: 0 },
-      error: null
+      error: null,
     });
   }, []);
 
   const editChapter = useCallback((chapterNumber: number, newTitle: string) => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
-      chapters: prev.chapters.map(ch =>
-        ch.number === chapterNumber
-          ? { ...ch, editedTitle: newTitle }
-          : ch
-      )
+      chapters: prev.chapters.map((ch) =>
+        ch.number === chapterNumber ? { ...ch, editedTitle: newTitle } : ch
+      ),
     }));
   }, []);
 
@@ -142,6 +141,6 @@ export const useM4bProcessor = () => {
     processFile,
     convertChapters,
     reset,
-    editChapter
+    editChapter,
   };
 };

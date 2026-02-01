@@ -19,7 +19,7 @@ function App() {
     processFile,
     convertChapters,
     reset,
-    editChapter
+    editChapter,
   } = useM4bProcessor();
 
   const [sharedArrayBufferAvailable, setSharedArrayBufferAvailable] = React.useState(true);
@@ -33,7 +33,9 @@ function App() {
     if (typeof SharedArrayBuffer === 'undefined') {
       setSharedArrayBufferAvailable(false);
       console.error('SharedArrayBuffer is not available.');
-      console.error('Please close this tab completely and open a new tab at http://localhost:5173/');
+      console.error(
+        'Please close this tab completely and open a new tab at http://localhost:5173/'
+      );
       console.error('Or do a hard refresh: Ctrl+Shift+R (Windows/Linux) or Cmd+Shift+R (Mac)');
     } else {
       setSharedArrayBufferAvailable(true);
@@ -65,17 +67,20 @@ function App() {
     }
   };
 
-  const completedChapters = results.map(r => r.chapter.number);
-  const currentChapter = status === 'converting' && progress.current > 0
-    ? chapters[progress.current - 1]?.number
-    : undefined;
+  const completedChapters = results.map((r) => r.chapter.number);
+  const currentChapter =
+    status === 'converting' && progress.current > 0
+      ? chapters[progress.current - 1]?.number
+      : undefined;
 
   return (
     <ErrorBoundary>
       <div className="app">
         <header className="app-header">
           <h1>M4B to MP3 Converter</h1>
-          <p>Convert M4B audiobook files to MP3 chapters - All processing happens in your browser</p>
+          <p>
+            Convert M4B audiobook files to MP3 chapters - All processing happens in your browser
+          </p>
         </header>
 
         {!sharedArrayBufferAvailable && (
@@ -83,11 +88,18 @@ function App() {
             <h3>⚠️ Browser Configuration Required</h3>
             <p>SharedArrayBuffer is not available. To fix this:</p>
             <ol>
-              <li><strong>Close this browser tab completely</strong></li>
+              <li>
+                <strong>Close this browser tab completely</strong>
+              </li>
               <li>Open a new tab</li>
-              <li>Navigate to <code>http://localhost:5173/</code></li>
+              <li>
+                Navigate to <code>http://localhost:5173/</code>
+              </li>
             </ol>
-            <p>Or do a hard refresh: <kbd>Ctrl+Shift+R</kbd> (Windows/Linux) or <kbd>Cmd+Shift+R</kbd> (Mac)</p>
+            <p>
+              Or do a hard refresh: <kbd>Ctrl+Shift+R</kbd> (Windows/Linux) or{' '}
+              <kbd>Cmd+Shift+R</kbd> (Mac)
+            </p>
           </div>
         )}
 
@@ -100,15 +112,14 @@ function App() {
           )}
 
           {showUpload && !isFFmpegLoading && (
-            <FileUpload
-              onFileSelect={processFile}
-              disabled={isProcessing}
-            />
+            <FileUpload onFileSelect={processFile} disabled={isProcessing} />
           )}
 
           {file && (
             <div className="file-info">
-              <p><strong>File:</strong> {file.name}</p>
+              <p>
+                <strong>File:</strong> {file.name}
+              </p>
               {status !== 'idle' && (
                 <p className={`status ${status}`}>
                   <strong>Status:</strong> {getStatusMessage()}
@@ -147,7 +158,9 @@ function App() {
 
           {showConvertButton && (
             <div className="convert-action">
-              <p className="convert-hint">Edit chapter names if needed, then click Convert to start processing.</p>
+              <p className="convert-hint">
+                Edit chapter names if needed, then click Convert to start processing.
+              </p>
               <button onClick={convertChapters} className="convert-button">
                 Convert to MP3
               </button>
@@ -156,10 +169,7 @@ function App() {
 
           {showDownload && (
             <>
-              <DownloadPanel
-                results={results}
-                originalFilename={file?.name || 'audiobook'}
-              />
+              <DownloadPanel results={results} originalFilename={file?.name || 'audiobook'} />
               <button onClick={reset} className="reset-button">
                 Convert Another File
               </button>
@@ -169,7 +179,8 @@ function App() {
 
         <footer className="app-footer">
           <p>
-            Privacy: All processing happens locally in your browser. No files are uploaded to any server.
+            Privacy: All processing happens locally in your browser. No files are uploaded to any
+            server.
           </p>
         </footer>
       </div>
