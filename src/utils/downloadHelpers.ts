@@ -8,7 +8,7 @@ export const downloadFile = (blob: Blob, filename: string): void => {
   saveAs(blob, sanitized);
 };
 
-export const createZip = async (results: ConversionResult[], _zipName: string): Promise<Blob> => {
+export const createZip = async (results: ConversionResult[]): Promise<Blob> => {
   const zip = new JSZip();
 
   // Add each MP3 to the zip
@@ -35,6 +35,6 @@ export const downloadZip = async (
   originalFilename: string
 ): Promise<void> => {
   const zipName = originalFilename.replace(/\.m4b$/i, '.zip');
-  const zipBlob = await createZip(results, zipName);
+  const zipBlob = await createZip(results);
   downloadFile(zipBlob, zipName);
 };
