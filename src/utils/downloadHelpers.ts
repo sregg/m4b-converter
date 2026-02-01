@@ -10,7 +10,7 @@ export const downloadFile = (blob: Blob, filename: string): void => {
 
 export const createZip = async (
   results: ConversionResult[],
-  zipName: string
+  _zipName: string
 ): Promise<Blob> => {
   const zip = new JSZip();
 

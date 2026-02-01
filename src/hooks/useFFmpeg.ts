@@ -1,6 +1,5 @@
 import { useState, useRef, useCallback } from 'react';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
-import { fetchFile } from '@ffmpeg/util';
 
 interface UseFFmpegReturn {
   ffmpeg: FFmpeg | null;

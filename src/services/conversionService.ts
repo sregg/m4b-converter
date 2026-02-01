@@ -5,7 +5,7 @@ import { formatTimestamp } from '../utils/fileHelpers';
 export const convertChapterToMp3 = async (
   ffmpeg: FFmpeg,
   chapter: Chapter,
-  onProgress?: (progress: ProgressUpdate) => void
+  _onProgress?: (progress: ProgressUpdate) => void
 ): Promise<Blob> => {
   const outputFileName = `chapter_${chapter.number}.mp3`;
 
@@ -29,7 +29,9 @@ export const convertChapterToMp3 = async (
 
     // Read the output file
     const data = await ffmpeg.readFile(outputFileName);
-    const blob = new Blob([data], { type: 'audio/mpeg' });
+    // Convert to regular Uint8Array to avoid SharedArrayBuffer issues
+    const uint8Array = new Uint8Array(data as Uint8Array);
+    const blob = new Blob([uint8Array], { type: 'audio/mpeg' });
 
     // Clean up the output file from virtual filesystem
     await ffmpeg.deleteFile(outputFileName);

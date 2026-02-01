@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { ProcessingState, ProgressUpdate, ConversionResult } from '../types';
+import { ProcessingState, ProgressUpdate } from '../types';
 import { useFFmpeg } from './useFFmpeg';
 import { extractChapters } from '../services/chapterExtractor';
 import { convertAllChapters } from '../services/conversionService';

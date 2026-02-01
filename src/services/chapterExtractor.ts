@@ -22,7 +22,7 @@ export const extractChapters = async (
 
     // Read the metadata file
     const data = await ffmpeg.readFile(metadataFileName);
-    const metadataText = new TextDecoder().decode(data);
+    const metadataText = new TextDecoder().decode(data as Uint8Array);
 
     // Parse chapters from metadata
     const chapters = parseChapterMetadata(metadataText);
