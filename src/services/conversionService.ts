@@ -48,9 +48,21 @@ export const convertChapterToMp3 = async (
     console.error(`Failed to convert chapter ${chapter.number}:`, error);
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     console.error('FFmpeg error details:', errorMessage);
-    throw new Error(
-      `Failed to convert chapter ${chapter.number}: ${chapter.title}. ${errorMessage.includes('Invalid') || errorMessage.includes('moov') ? 'This file may be DRM-protected.' : ''}`
-    );
+
+    // Check for specific error types
+    if (errorMessage.includes('memory') || errorMessage.includes('out of bounds')) {
+      throw new Error(
+        `Memory error: Chapter ${chapter.number} is too large to process. Try a smaller file or close other browser tabs.`
+      );
+    }
+
+    if (errorMessage.includes('Invalid') || errorMessage.includes('moov')) {
+      throw new Error(
+        `Failed to convert chapter ${chapter.number}: This file may be DRM-protected.`
+      );
+    }
+
+    throw new Error(`Failed to convert chapter ${chapter.number}: ${chapter.title}.`);
   }
 };
 
@@ -82,8 +94,22 @@ export const convertAllChapters = async (
         blob,
         size: blob.size,
       });
+
+      // Force garbage collection hint and add delay between chapters to help with memory
+      if (i < chapters.length - 1) {
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
     } catch (error) {
       console.error(`Error converting chapter ${chapter.number}:`, error);
+      const errorMessage = error instanceof Error ? error.message : '';
+
+      // Check if this is a memory error
+      if (errorMessage.includes('memory') || errorMessage.includes('out of bounds')) {
+        throw new Error(
+          `Memory error while converting chapter ${chapter.number}. The file may be too large or the chapter too long. Try converting a smaller file or closing other browser tabs to free up memory.`
+        );
+      }
+
       throw error;
     }
   }

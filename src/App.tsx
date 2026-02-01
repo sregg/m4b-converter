@@ -83,8 +83,8 @@ function App() {
             browser
           </p>
           <p className="drm-notice">
-            ⚠️ DRM-protected files (e.g., from Audible) cannot be converted. Only DRM-free files are
-            supported.
+            ⚠️ DRM-protected files cannot be converted. Large files may cause memory issues - try
+            closing other browser tabs if conversion fails.
           </p>
         </header>
 
